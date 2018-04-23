@@ -1,0 +1,25 @@
+.container {
+      text-align: left;
+      padding-top: 25;
+      margin-left:20px;
+      border-Radius: 2
+    }
+ .container .panel{
+    border:1px solid #ccc;
+    width:50%;
+    margin: 20px ;
+    padding:0px 0 20px 0;
+ }
+
+ .divCls{
+      width:40%;
+      display:block;
+      margin-left:20px;
+ }
+ .Msg{
+  border:1px solid grren;
+  margin:12px;
+  padding:12px;
+  color:red;
+  background-color: #eee;
+ }

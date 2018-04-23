@@ -1,0 +1,16 @@
+.sidebar{
+    width:20%;                
+    float:left
+}
+.rightContent{
+width:80%;
+float:left;
+}
+@media (max-width:990px){
+.sidebar{
+    display: none;
+}
+.rightContent{
+    width:100%;
+    }
+}
