@@ -46,11 +46,13 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         //  
+       
         $wrapperList = $request->wrapper_list;
         
         foreach($wrapperList as $key => $browseNodeVal)
            {
-               $browseNodeArray[$key]=array('browse_node'=>$browseNodeVal);
+              if($browseNodeVal!='') 
+               {$browseNodeArray[$key]=array('browse_node'=>$browseNodeVal);}
            }
  
 
@@ -95,6 +97,8 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
+        //return  CategoryCollection::collection(Category::find($id));
+        return  CategoryCollection::collection(Category::where('id', '=', $id)->get());
     }
     function makeNested($source) {
         $nested = array();
@@ -187,6 +191,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
        
         $category = Category::find($id); 
         $category->category_name = $request->category_name;
@@ -196,12 +201,14 @@ class CategoryController extends Controller
         $category->amazon_target_audiences= $request->amazon_target_audiences;
         $category->save();
         $wrapperList = $request->wrapper_list;
+       
         foreach($wrapperList as $key => $browseNodeVal)
-           {
-               $browseNodeArray[$key]=array('browse_node'=>$browseNodeVal);
-           }
-
-        $category->wrappers()->sync($browseNodeArray);
+            {
+               if($browseNodeVal!='') 
+               {$browseNodeArray[$key]=array('browse_node'=>$browseNodeVal);}    
+            }
+      if(isset($browseNodeArray))
+        {  $category->wrappers()->sync($browseNodeArray);}
 
         return response(null,201);
     }

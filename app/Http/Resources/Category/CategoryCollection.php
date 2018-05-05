@@ -65,8 +65,11 @@ class CategoryCollection extends Resource
               'category_name'=> $this->category_name,
               'parent_id'=> $this->parent_id,
               'wrapper_list' => $allSitewrappers,
-              'main_cat_name'=>$main_cat_name     
-             ];
+              'main_cat_name'=>$main_cat_name,
+              'department'=>$this->department,
+              'amazonitemtype'=>$this->amazon_item_type,
+              'amazontargetaudience'=>$this->amazon_target_audiences,
+            ];
        
       
     }

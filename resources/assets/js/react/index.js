@@ -20,6 +20,9 @@ import wrappers from './store/reducers/wrappers';
 import clientwrappers from './store/reducers/clientwrappers';
 import productimport from './store/reducers/productimport';
 import categories from './store/reducers/categories';
+import optiontypegroup from './store/reducers/optiontypesgroups';
+import optiontypes from './store/reducers/optiontypes';
+import products from './store/reducers/products';
 injectTapEventPlugin()
 
 // Styles
@@ -44,7 +47,10 @@ const rootReducer = combineReducers({
       wrapper:wrappers,
       clientwrappers:clientwrappers,
       productimport:productimport,
-      categories:categories
+      categories:categories,
+      optiontypegroup:optiontypegroup,
+      optiontypes:optiontypes,
+      products:products  
 
     }); 
 const store = createStore(

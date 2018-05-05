@@ -57,14 +57,13 @@ render(){
  }
 }
 const mapStateToProps = state =>{
-
-return{
-   clientwrappers:state.clientwrappers.clientwrappers,
-   loading:state.wrapper.loading,
-   isAuthicated:state.auth.token !== null,
-   token:state.auth.token,
-   site_id:state.auth.site_id
-}
+    return{
+            clientwrappers:state.clientwrappers.clientwrappers,
+            loading:state.wrapper.loading,
+            isAuthicated:state.auth.token !== null,
+            token:state.auth.token,
+            site_id:state.auth.site_id
+        }
 }
 
 const mapDispatchToProps = dispatch =>{

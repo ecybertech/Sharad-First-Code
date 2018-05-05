@@ -26,7 +26,6 @@ class CategoryRequest extends FormRequest
         return [
             //
             'category_name' => 'required|unique:categories',
-            'parent_id'  => 'required',
             'department'    => 'required',
             'amazon_item_type' => 'required',
             'amazon_target_audiences' => 'required',

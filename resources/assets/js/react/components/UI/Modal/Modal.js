@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const modalBox = (props) =>{
-  console.log("User ID "+props.userId)
+  
     const actions = [
         <FlatButton
           label="Cancel"

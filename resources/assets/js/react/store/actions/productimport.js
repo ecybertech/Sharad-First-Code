@@ -18,17 +18,17 @@ export const ProductInventorySuccess = (data) =>{
         data:data
      }
 }
-export const ProductInventory = (productdata,token) =>{
+export const ProductInventory = (productdata,token,siteid) =>{
     return  dispatch =>{
          dispatch(productInventoryStart());
-      
+        
         const productArray={
-            'submitdata':productdata
+            'submitdata':productdata,
+            'site_id':siteid
         }
         axiosClient.post('products/submitxls',productArray,{ 'headers': {'Accept':'application/json', 'Authorization': 'Bearer '+token } })
          .then(res=>{
-             console.log("data submited")
-             console.log(res);
+             
             dispatch(ProductInventorySuccess(res));
          })
          .catch(err=>{

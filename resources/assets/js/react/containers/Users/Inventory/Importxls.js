@@ -20,8 +20,8 @@ class Importxls extends Component{
 
 state={
     data: [], /* Array of Arrays e.g. [["a","b"],[1,2]] */
-    cols: []  /* Array of column objects e.g. { name: "C", K: 2 } */
-   
+    cols: [],  /* Array of column objects e.g. { name: "C", K: 2 } */
+    submit_after:false
    }
 
 handleChange(selectorFiles)
@@ -56,30 +56,25 @@ onSubmit = (e) => {
           
       
            const xlsHeader = this.state.data[0];
-           //console.log("Length "+this.state.data.length);
-           const TotalLength=this.state.data.length-1;
+          //console.log("Length "+this.state.data.length);
+           
+           const TotalLength=this.state.data.length;
            let data=[];
            let totalArray=[];
            for(let i=0;i<TotalLength;i++)
                 {
-                    xlsHeader.map((headerKeys, index, arr) => {
-                      //  console.log(headerKeys+""+this.state.data[i][index]);
-                         data[headerKeys]=this.state.data[i+1][index];    
-                    })
-                  
+                   if(i!=0)
+                      {
+                        var innerObj = {};
+                        xlsHeader.map((headerKeys, index, arr) => {
+                            innerObj[headerKeys] = this.state.data[i][index];
+                        })
+                        data.push(innerObj)
+                      }
                 }
-                console.log(data);
-                totalArray.push(data); 
-                console.log("Here we are ");
-                console.log(totalArray);   
-                return false;
-               
-                 
-            
-
-         
-      
-           /*
+              
+            this.props.onProductInventorySubmit(data,this.props.token,this.props.site_id);   
+        /*
            return false;
            let newArr = this.state.data.map((val, index, arr) => {
              if(index > 0)
@@ -89,17 +84,20 @@ onSubmit = (e) => {
            //return element to new Array
           
          }); */
-            return false;
-           this.props.onProductInventorySubmit(this.state.data,this.props.token);
-        }
+    }
        
       
      render(){
         let Title="Import Xls";
-
+        let redirect="";
+        if(this.props.submit_after)
+            { 
+            console.log(this.props.submit_after);
+            redirect=<Redirect to="/users/products"/>;
+            }
         return (
             <div className="container">
-           
+            {redirect}  
               <HeadTitle title={Title}/> 
               <Paper className="panel">
               <form onSubmit={this.onSubmit}>
@@ -130,6 +128,7 @@ const mapStateToProps = state =>{
         site_id:state.auth.site_id,
         seller_id:state.clientwrappers.seller_id,
         mwsAuthToken:state.clientwrappers.mwsauth,
+        submit_after: state.productimport.submit_after
         
     }    
 }
@@ -137,7 +136,7 @@ const mapStateToProps = state =>{
 
 const mapDispatchToProps = dispatch =>{
      return {
-        onProductInventorySubmit:(productdata,token) => dispatch(actions.ProductInventory(productdata,token)),
+        onProductInventorySubmit:(productdata,token,siteid) => dispatch(actions.ProductInventory(productdata,token,siteid)),
         
     }
 } 

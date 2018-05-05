@@ -24,7 +24,6 @@ if(props.wrapperList)
 
 
 const tbody= Object.keys(props.tbody).map((site,j) => 
-//console.log(props.tbody[site]['id']);
 <TableRow key={j} selectable={false} >
  {
      Object.keys(props.theadRow).map((lkey,jk) => 
@@ -33,8 +32,8 @@ const tbody= Object.keys(props.tbody).map((site,j) =>
 
   }
  
-    <TableRowColumn>
-      {/*<Link to={props.siteUrl+props.tbody[site]['id']} >*/}
+    <TableRowColumn style={props.siteUrl=='/users/edit/' ? {display:'none'}:{display:'block'}}   >
+      {/*<Link to={props.siteUrl+props.tbody[site]['id']} > console.log("Site id"+ props.tbody[site]['id'])*/ }
       <Link to={props.tbody[site].hasOwnProperty('marketplace_id') ? props.siteUrl+props.tbody[site]['wrapperId']+'/'+props.tbody[site]['marketplace_id'] : props.siteUrl+props.tbody[site]['id'] } >
 
        <EditIcon style={{cursor:'pointer'}}  />

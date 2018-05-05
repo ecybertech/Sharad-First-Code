@@ -15,6 +15,9 @@ class Category extends Model
         return $this->belongsTo('App\Site');
     }
 
+    public function optiontypes(){
+      return $this->belongsToMany('App\Optiontype','category_optiontype','optiontype_id', 'category_id');
+    }
     //each category might have one parent
   public function parent() {
     return $this->belongsTo(static::class, 'parent_id');

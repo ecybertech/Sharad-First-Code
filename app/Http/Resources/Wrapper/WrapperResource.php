@@ -19,6 +19,7 @@ class WrapperResource extends Resource
         'wrapper_name' => $this->wrappername,
         'wrapper_url'=> $this->wrapperurl,
         'wrapper_id' => $this->id,
+        'currency' => $this->currency,
     ];
     }
 }

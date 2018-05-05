@@ -21,15 +21,16 @@ const styles = {
 class Createcategories extends Component{
 state={
  categoryname:'',
- parentcategory:'',
+ parentcategory:0,
  department:'',
  amazonitemtype:'',
  amazontargetaudience:'',
- siteEdit:true,
+ categoryedit:true,
  categoriesdropdown:false,
- category_id: null,
+ category_id: 0,
  clientwrappers:false,
- browsernode:[]
+ browse_node:[]
+
 }
 
 
@@ -38,18 +39,72 @@ state={
 
 componentDidMount() {
        if(this.props.match.params.id)
-         { this.props.onMountEdit(this.props.match.params.id,this.props.token);
+         { 
+            this.props.onCategoryEdit(this.props.match.params.id,this.props.token);
          }
         this.props.onFatchCategories(this.props.site_id,this.props.token);
         this.props.onFetchClientwrapper(this.props.token,this.props.site_id);
+        
     }  
     static getDerivedStateFromProps(nextProps, prevState) {
         // ...
        // console.log(nextProps.clientwrappers);
-        return {
-            categoriesdropdown: nextProps.categoriesdropdown,
-            clientwrappers:nextProps.clientwrappers
-         };
+       
+    let catedit=prevState.categoryedit;
+    let categoriys_id=prevState.category_id;
+    let categoryname = prevState.categoryname;
+    let department = prevState.department;
+    let amazonitemtype = prevState.amazonitemtype;
+    let amazontargetaudience = prevState.amazontargetaudience;
+    let browse_node  = prevState.browse_node;
+    
+
+ 
+     if(nextProps.categoryedit!=prevState.categoryedit)
+        { catedit=  nextProps.categoryedit;
+        }
+     
+        if(nextProps.category_id!=prevState.category_id)
+        { 
+            //console.log("Category Iddd "+nextProps.category_id);
+            categoriys_id=  nextProps.category_id;
+        }
+        if(nextProps.categoryname!=prevState.categoryname)
+        { categoryname=  nextProps.categoryname;
+        }
+       
+
+        if(nextProps.department!=prevState.department)
+        { department=  nextProps.department;
+        }
+       
+        if(nextProps.amazonitemtype!=prevState.amazonitemtype)
+        { amazonitemtype=  nextProps.amazonitemtype;
+        }
+       
+        if(nextProps.amazontargetaudience!=prevState.amazontargetaudience)
+        { amazontargetaudience=  nextProps.amazontargetaudience;
+        }
+
+        if(nextProps.browse_node!=prevState.browse_node)
+        { browse_node=  nextProps.browse_node;
+        }
+        
+      
+            return {
+                categoriesdropdown: nextProps.categoriesdropdown,
+                clientwrappers:nextProps.clientwrappers,
+                categoryedit:catedit,
+                category_id:categoriys_id,
+                categoryname:categoryname,
+                amazonitemtype:amazonitemtype,
+                department:department,
+                amazontargetaudience:amazontargetaudience,
+                browse_node:browse_node
+    
+             };
+     
+        
        
       }
   
@@ -63,56 +118,52 @@ handledropdownChange = (event, index, value) => this.setState({
         });
       };
       handleShareholderNameChange = (idx) => (evt) => {
-        const newShareholders = this.state.shareholders.map((shareholder, sidx) => {
-          if (idx !== sidx) return shareholder;
-          return { ...shareholder, name: evt.target.value };
-        });
-        
-        this.setState({ shareholders: newShareholders });
+        const browsenodes = this.state.browse_node.slice(); // Make a copy of the emails first.
+        browsenodes[idx] = evt.target.value; // Update it with the modified email.
+        this.setState({browse_node: browsenodes}); // Update the state.
       }
+     
     onSubmit = (e) => {
         e.preventDefault()
-        let formElements = e.target.elements;
+  
+        const categoryname = this.state.categoryname;
+        const parent_category_id = this.state.category_id;
+        const department = this.state.department;
+        const amazonitemtype = this.state.amazonitemtype;
+        const amazontargetaudience = this.state.amazontargetaudience;
        
-         let  wrapper_list= []
        
-        Object.keys(formElements).forEach((key) => {
-            console.log(formElements[key].name);
-            if (formElements[key].name == 'browsenode[]') {
-              wrapper_list.push(formElements[key].value)
-               }
-        });
-        console.log("Herer we are")
-        console.log(wrapper_list);
-        return false;
-        
-        const sitename = this.refs.sitename.input.value;
-        const url = this.refs.url.input.value;
-        const username = this.refs.username.input.value;
-        const password = this.refs.password.input.value;
-
         if(!this.props.match.params.id)
           {
                 const siteData={
-                    sitename:sitename,
-                    siteurl:url,
-                    username:username,
-                    password:password
+                    category_name:categoryname,
+                    parent_id:parent_category_id,
+                    department:department,
+                    amazon_item_type:amazonitemtype,
+                    amazon_target_audiences:amazontargetaudience,
+                    site_id:this.props.site_id,
+                    wrapper_list:this.state.browse_node
                 }
-        
-                this.props.onCreateSite(siteData,this.props.token);
+       
+             
+                this.props.onCreateCategory(siteData,this.props.token);
           }
          else
           {
+              
+           
             const siteData={
-                sitename:sitename,
-                siteurl:url,
-                username:username,
-                password:password,
+                category_name:categoryname,
+                parent_id:parent_category_id,
+                department:department,
+                amazon_item_type:amazonitemtype,
+                amazon_target_audiences:amazontargetaudience,
+                site_id:this.props.site_id,
+                wrapper_list:this.state.browse_node,
                 id:this.props.match.params.id
             }
-    
-            this.props.onEditSite(siteData,this.props.token);
+         
+            this.props.onSubmitCategoryEdit(siteData,this.props.token,this.props.match.params.id); 
           }
 
        }
@@ -124,24 +175,23 @@ handledropdownChange = (event, index, value) => this.setState({
         let buttonname='Create Categroy';
         let dropdownmenu ='';
         
-         if(!this.state.siteEdit)
+        
+         if(!this.state.categoryedit)
             { 
-                redirect=<Redirect to="users/category"/>;
+               // console.log(this.state.categoryedit);
+                redirect=<Redirect to="/users/category"/>;
             }
 
         if(this.props.match.params.id)
             { Title="Edit Category";
             buttonname="Edit Category";
            }
+           
      
          const   categoriesList = this.state.categoriesdropdown;
          const   clientwrappers = this.state.clientwrappers; 
-        // console.log(clientwrappers);
-      
-       
-
-
-        return (
+         
+     return (
             <div className="container">
             {redirect}   
               <HeadTitle title={Title}/> 
@@ -166,15 +216,14 @@ handledropdownChange = (event, index, value) => this.setState({
                        
                 </div> 
                 <div className="divCls"> 
-                <SelectValidator 
+                <SelectField 
                        name="parent_category_id" 
                        value={this.state.category_id} 
                       onChange={this.handledropdownChange}
-                       autoWidth={true}
-                       validators={['required']}
-                       errorMessages={['Category name is required']}
+                       
+                       
                     >
-                    <MenuItem value={null} primaryText="Select parent" />
+                    <MenuItem value={0} primaryText="Select parent" />
                     {
                         
                         categoriesList.map((site,j) => 
@@ -183,7 +232,7 @@ handledropdownChange = (event, index, value) => this.setState({
                            )
                           ) 
                     }      
-                    </SelectValidator > 
+                    </SelectField > 
                  
         </div>
                 <div className="divCls">
@@ -222,7 +271,8 @@ handledropdownChange = (event, index, value) => this.setState({
                </div>
                <div className="divCls"> 
                 { Object.keys(clientwrappers).map((wrappers,j) => 
-                      //console.log(clientwrappers[j].wrappername)
+                    
+                  
                     <Aux key={j}>  
                        
                             <div key={j} >
@@ -234,8 +284,9 @@ handledropdownChange = (event, index, value) => this.setState({
                             floatingLabelText={'Browse Node'}
                             key={"tr"+j}
                             name={"browsenode["+clientwrappers[j].id+"]"}
-                            
+                            onChange={this.handleShareholderNameChange(clientwrappers[j].id,event)}
                             id={"browsenode-"+j}
+                            value={this.state.browse_node[clientwrappers[j].id]}
                             />
                       </div>  
                      </Aux>    
@@ -255,24 +306,34 @@ handledropdownChange = (event, index, value) => this.setState({
 
 } 
 const mapStateToProps = state =>{
- 
+    
     return {
         token:state.auth.token,
         loading:state.categories.loading,
         categoriesdropdown:state.categories.categoriesdropdown,
         site_id:state.auth.site_id,
+        categoryedit:state.categories.categoryedit,
         clientwrappers:state.clientwrappers.clientwrappers,
-        
+        category_id:state.categories.category_id,
+        categoryname:state.categories.categoryname,
+        department:state.categories.department,
+        amazonitemtype:state.categories.amazonitemtype,
+        amazontargetaudience:state.categories.amazontargetaudience,
+        browse_node:state.categories.browse_node   
     }    
 }
 
-
 const mapDispatchToProps = dispatch =>{
+   
      return {
         onFetchClientwrapper: (token,siteid)=>dispatch(actions.fetchClientwrappers(token,siteid)), 
         onFatchCategories:(siteid,token) => dispatch(actions.fecthdropCategories(siteid,token)),
+        onCreateCategory:(categoryData,token) => dispatch(actions.CreateCategory(categoryData,token)),
+        onCategoryEdit:(catgeoryId,token) => dispatch(actions.EditCategory(catgeoryId,token)),
+        onSubmitCategoryEdit:(categoryData,token,catgoryId) => dispatch(actions.EditSubmitCategory(categoryData,token,catgoryId)),
+        onFetchCreateCategory:(token,siteid)=>dispatch(actions.GetInitialStateCategory(token,siteid)), 
     }
 }
-
 export default connect(mapStateToProps,mapDispatchToProps)(Createcategories);
+
 //export default Createcategories;

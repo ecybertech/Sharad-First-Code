@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import UItables from '../../../components/UI/Tables/Tables';
+import Modal from '../../../components/UI/Modal/Modal';
 import {connect} from 'react-redux';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import * as actions from '../../../store/actions/index';
@@ -37,7 +38,7 @@ this.setState({showModal:true,openModalBox: true});
 
 handleModalboxSubmitButton = (deleteId) => {
 
-this.props.onWrapperDelete(deleteId,this.props.token);
+this.props.onCategoryDelete(deleteId,this.props.token,this.props.site_id);
 this.setState({showModal:true,openModalBox: true});
 
 };
@@ -46,10 +47,10 @@ render(){
  
     let tables = <Spinner/>;
     if(!this.props.loading)
-      {tables = <UItables wrapperList={this.state.categories}  theadRow={this.state.coloums} showCheckbox={this.state.showcheckbox} siteUrl='users/wrapper/edit/' tbody={this.props.categories} ondeleteClicked ={this.deleteIconClicked} editClicked={this.editIconClick}/>}
+      {tables = <UItables wrapperList={this.state.categories}  theadRow={this.state.coloums} showCheckbox={this.state.showcheckbox} siteUrl='/category/edit/' tbody={this.props.categories} ondeleteClicked ={this.deleteIconClicked} editClicked={this.editIconClick}/>}
      let modal='';
      if(this.state.showModal)
-       { modal=<Modal title="Are you sure you want to Delete wrapper?"  DeleteId={this.state.DeleteId} open={!this.state.openModalBox} closedModalbox={this.handleModalboxCloseButton} submitModalbox={this.handleModalboxSubmitButton}/> } 
+       { modal=<Modal title="Are you sure you want to Delete Category, it will delete all the categoires under this category?"  DeleteId={this.state.DeleteId} open={!this.state.openModalBox} closedModalbox={this.handleModalboxCloseButton} submitModalbox={this.handleModalboxSubmitButton}/> } 
    return(
         <div className="container">
         <HeadTitle title='Your Categories List'/>
@@ -73,6 +74,7 @@ return{
 const mapDispatchToProps = dispatch =>{
             return {
             onFetchClientcategories: (token,siteid)=>dispatch(actions.fetchCategories(token,siteid)),
+            onCategoryDelete: (id,token,siteid)=>dispatch(actions.deleteCategroy(id,token,siteid)),
             }
 }
 

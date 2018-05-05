@@ -15,7 +15,13 @@ import Usersettings from './containers/Users/Usersettings/Usersettings';
 import Importxls from './containers/Users/Inventory/Importxls';
 import Categories from './containers/Users/Category/Categories';
 import Createcategory from './containers/Users/Category/Createcategory';
+import Optiontypegroup from './containers/Users/Optiontypegroup/Optiontypegroup';
+import Products from './containers/Users/Inventory/Products';
+import CreateOptiongroup from './containers/Users/Optiontypegroup/CreateOptiongroup';
+import Optiontypes from './containers/Users/Optiontypes/Optiontypes';
+import Createoptiontypes from './containers/Users/Optiontypes/Createoptiontypes';
 //import Wrapperlist from './containers/Clientwrappers/Clientwrappers';
+//
 
 import * as actions from './store/actions/index';
 
@@ -46,6 +52,17 @@ class App extends Component {
              <Route path="/users/inventory/importxls"  component={Importxls} />
              <Route path="/users/category"  component={Categories} />
              <Route path="/users/createcategory"  component={Createcategory} />
+             <Route path="/category/edit/:id"  component={Createcategory} />
+             
+             <Route path="/optiontypegroups"  component={Optiontypegroup} />
+             <Route path="/users/optiongroup/create"  component={CreateOptiongroup} />
+             <Route path="/users/optiongroup/edit/:id"  component={CreateOptiongroup} />
+             <Route path="/users/optiontypes/create"  component={Createoptiontypes} />
+             <Route path="/users/optiontypes/edit/:id"  component={Createoptiontypes} />
+             <Route path="/users/optiontypes"  component={Optiontypes} />
+             <Route path="/users/products"  component={Products} />
+             
+
              <Route   path="/wrapper/createwrapper"   component={CreateWrapper} />
              <Route  path="/wrapper"   component={Wrapper} />
              <Route  path="/wrapperlist"   component={Wrapperlist} />

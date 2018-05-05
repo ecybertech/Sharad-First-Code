@@ -95,9 +95,32 @@ nestedItems={[
                       key={3}
                       primaryText="Option Type Group"
                       leftIcon={<ContentSend />}
-                      containerElement={<Link to="/users/option_type"  />}
+                      containerElement={<Link to="/optiontypegroups"  />}
+                      value={3}
+                    />,
+                    <ListItem
+                      key={4}
+                      primaryText="Create Option Group"
+                      leftIcon={<ContentSend />}
+                      containerElement={<Link to="/users/optiongroup/create"  />}
                       value={4}
                     />,
+                    <ListItem
+                      key={5}
+                      primaryText="Option Types"
+                      leftIcon={<ContentSend />}
+                      containerElement={<Link to="/users/optiontypes"  />}
+                      value={5}
+                    />,
+                    <ListItem
+                      key={6}
+                      primaryText="Create Option Types"
+                      leftIcon={<ContentSend />}
+                      containerElement={<Link to="/users/optiontypes/create"  />}
+                      value={6}
+                    />,
+                    
+                   
                     
                   ]}
                   />
@@ -113,12 +136,12 @@ nestedItems={[
                       key={1}
                       primaryText="Inventory Manager"
                       leftIcon={<ContentSend />}
-                      containerElement={<Link to="/site"  />}
+                      containerElement={<Link to="/users/products"  />}
                       value={1}
                     />,
                     <ListItem
                       key={2}
-                      primaryText="Import Products"
+                      primaryText="Feed List"
                       leftIcon={<ContentSend />}
                       containerElement={<Link to="/users/inventory/importxls"  />}
                       value={2}

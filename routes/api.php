@@ -9,6 +9,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResource('/sites','SiteController')->middleware('auth:api');
 Route::apiResource('/categories','CategoryController')->middleware('auth:api');
+Route::apiResource('/optiontype','OptiontypeController')->middleware('auth:api');
+Route::apiResource('/optiontypegroup','OptiontypegroupController')->middleware('auth:api');
+Route::get('/optiontypegroup/sitewisegrouptype/{id}', 'OptiontypegroupController@sitewisegrouptype')->middleware('auth:api');
+Route::get('/optiontype/sitewiseoptiontype/{id}', 'OptiontypeController@sitewiseoptiontype')->middleware('auth:api');
+
 /*Route::group(['prefix'=>'sites'],function(){
     Route::apiResource('/{site}/wrapperlist','SiteController');
 }); */
@@ -24,4 +29,5 @@ Route::apiResource('/orders','OrderController')->middleware('auth:api');
 Route::apiResource('/products','ProductController')->middleware('auth:api');
 Route::post('/products/submitxls','ProductController@submitxls')->middleware('auth:api');
 Route::get('/categories/sitecategories/{id}', 'CategoryController@sitecategorylist')->middleware('auth:api');
+Route::get('/products/siteproducts/{id}', 'ProductController@siteproducts')->middleware('auth:api');
 Route::get('/categories/categoryList/{id}', 'CategoryController@categoryList')->middleware('auth:api');

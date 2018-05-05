@@ -1,0 +1,8 @@
+.divSizeauto{
+    width:80%;
+    height : 200px;
+    overflow: auto;
+}
+.width100{
+    width:100%;
+}
